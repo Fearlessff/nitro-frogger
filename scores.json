@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1748364386073,
+    "username": "test",
+    "score": 3970,
+    "difficulty": "medium",
+    "timestamp": "2025-05-27T16:46:26.073Z",
+    "date": "27.05.2025"
+  },
+  {
+    "id": 1748365200632,
+    "username": "tst2",
+    "score": 30870,
+    "difficulty": "medium",
+    "timestamp": "2025-05-27T17:00:00.632Z",
+    "date": "27.05.2025"
+  }
+]
