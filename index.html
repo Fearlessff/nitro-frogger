@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -2049,7 +2049,8 @@
             const playerName = document.getElementById('playerName').value.trim() || 'Anonymous';
             
             try {
-                const response = await fetch('http://localhost:3000/submit', {
+                const response = await fetch('https://distinguished-heart.up.railway.app/submit', {
+
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -2071,7 +2072,8 @@
         
         async function loadLeaderboard() {
             try {
-                const response = await fetch('http://localhost:3000/leaderboard');
+                const response = await fetch('https://distinguished-heart.up.railway.app/submit', {
+
                 const leaderboard = await response.json();
                 displayLeaderboard(leaderboard);
             } catch (error) {
