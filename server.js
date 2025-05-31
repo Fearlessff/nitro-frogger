@@ -215,11 +215,13 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`🐸 Nitro Frog OG Server running on port ${PORT}`);
-    console.log(`📊 Loaded ${scores.length} existing scores`);
-    console.log(`🎮 Game available at http://localhost:${PORT}`);
-    console.log(`📈 Leaderboard API at http://localhost:${PORT}/leaderboard`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Nitro Frog OG Server running on port ${PORT}`);
+  console.log(`📦 Loaded ${scores.length} existing scores`);
+  console.log(`🎮 Game available at http://localhost:${PORT}`);
+  console.log(`📊 Leaderboard API at http://localhost:${PORT}/leaderboard`);
+});
+
 });
 
 // Graceful shutdown
