@@ -47,32 +47,27 @@ app.post('/submit', (req, res) => {
     try {
         const { username, score, difficulty } = req.body;
 
-        // Validate input
         if (!username || typeof score !== 'number' || !difficulty) {
-            return res.status(400).json({ 
-                error: 'Invalid input. Username, score (number), and difficulty are required.' 
+            return res.status(400).json({
+                error: 'Invalid input. Username, score (number), and difficulty are required.'
             });
         }
 
-        // Create new score entry
         const newScore = {
-            id: Date.now(), // Simple ID generation
-            username: username.trim().substring(0, 20), // Limit username length
+            id: Date.now(),
+            username: username.trim().substring(0, 20),
             score: parseInt(score),
             difficulty: difficulty,
             timestamp: new Date().toISOString(),
             date: new Date().toLocaleDateString()
         };
 
-        // Add to scores array
         scores.push(newScore);
-
-        // Save to file
         saveScores();
 
         console.log(`New score submitted: ${newScore.username} - ${newScore.score} (${newScore.difficulty})`);
 
-        res.json({ 
+        res.json({
             status: 'success',
             message: 'Score submitted successfully',
             id: newScore.id
@@ -90,13 +85,10 @@ app.get('/leaderboard', (req, res) => {
         const { difficulty, limit } = req.query;
 
         let filteredScores = [...scores];
-
-        // Filter by difficulty if specified
         if (difficulty && difficulty !== 'all') {
             filteredScores = filteredScores.filter(score => score.difficulty === difficulty);
         }
 
-        // Sort by score (descending) and get top entries
         const topScores = filteredScores
             .sort((a, b) => b.score - a.score)
             .slice(0, parseInt(limit) || 10)
@@ -190,8 +182,8 @@ app.delete('/scores/clear', (req, res) => {
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-    res.json({ 
-        status: 'healthy', 
+    res.json({
+        status: 'healthy',
         uptime: process.uptime(),
         totalScores: scores.length,
         timestamp: new Date().toISOString()
@@ -216,12 +208,10 @@ app.use((req, res) => {
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Nitro Frog OG Server running on port ${PORT}`);
-  console.log(`📦 Loaded ${scores.length} existing scores`);
-  console.log(`🎮 Game available at http://localhost:${PORT}`);
-  console.log(`📊 Leaderboard API at http://localhost:${PORT}/leaderboard`);
-});
-
+    console.log(`🚀 Nitro Frog OG Server running on port ${PORT}`);
+    console.log(`📦 Loaded ${scores.length} existing scores`);
+    console.log(`🎮 Game available at http://localhost:${PORT}`);
+    console.log(`📊 Leaderboard API at http://localhost:${PORT}/leaderboard`);
 });
 
 // Graceful shutdown
@@ -234,8 +224,5 @@ process.on('SIGTERM', () => {
 process.on('SIGINT', () => {
     console.log('Saving scores before shutdown...');
     saveScores();
-process.on('SIGINT', () => {
-  console.log('Saving scores before shutdown...');
-  saveScores();
-  process.exit(0);
+    process.exit(0);
 });
