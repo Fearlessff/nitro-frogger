@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // Middleware
 app.use(cors());
@@ -40,8 +40,6 @@ function saveScores() {
     }
 }
 
-// API Routes
-
 // Submit a new score
 app.post('/submit', (req, res) => {
     try {
@@ -57,7 +55,7 @@ app.post('/submit', (req, res) => {
             id: Date.now(),
             username: username.trim().substring(0, 20),
             score: parseInt(score),
-            difficulty: difficulty,
+            difficulty,
             timestamp: new Date().toISOString(),
             date: new Date().toLocaleDateString()
         };
@@ -107,14 +105,14 @@ app.get('/leaderboard', (req, res) => {
     }
 });
 
-// Get all difficulty leaderboards
+// All difficulty leaderboards
 app.get('/leaderboards/all', (req, res) => {
     try {
         const difficulties = ['easy', 'medium', 'hard', 'insane'];
         const allLeaderboards = {};
 
         difficulties.forEach(diff => {
-            const diffScores = scores
+            allLeaderboards[diff] = scores
                 .filter(score => score.difficulty === diff)
                 .sort((a, b) => b.score - a.score)
                 .slice(0, 5)
@@ -123,8 +121,6 @@ app.get('/leaderboards/all', (req, res) => {
                     score: score.score,
                     date: score.date
                 }));
-
-            allLeaderboards[diff] = diffScores;
         });
 
         res.json(allLeaderboards);
@@ -135,11 +131,10 @@ app.get('/leaderboards/all', (req, res) => {
     }
 });
 
-// Get player stats
+// Player stats
 app.get('/player/:username', (req, res) => {
     try {
         const { username } = req.params;
-
         const playerScores = scores
             .filter(score => score.username.toLowerCase() === username.toLowerCase())
             .sort((a, b) => b.score - a.score);
@@ -168,7 +163,7 @@ app.get('/player/:username', (req, res) => {
     }
 });
 
-// Clear all scores (admin endpoint)
+// Admin: Clear scores
 app.delete('/scores/clear', (req, res) => {
     try {
         scores = [];
@@ -180,7 +175,7 @@ app.delete('/scores/clear', (req, res) => {
     }
 });
 
-// Health check endpoint
+// Health check
 app.get('/health', (req, res) => {
     res.json({
         status: 'healthy',
@@ -190,18 +185,18 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Serve the game
+// Serve main game file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Error handling middleware
+// Error handling
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// 404 handler
+// 404 fallback
 app.use((req, res) => {
     res.status(404).json({ error: 'Not found' });
 });
