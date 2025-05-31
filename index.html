@@ -2049,7 +2049,7 @@
             const playerName = document.getElementById('playerName').value.trim() || 'Anonymous';
             
             try {
-                const response = await fetch('https://supportive-upliftment.up.railway.app/submit', {
+             const response = await fetch('https://nitro-frogger-production.up.railway.app/submit', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
@@ -2074,9 +2074,9 @@
         
         async function loadLeaderboard() {
   try {
-    const response = await fetch('https://supportive-upliftment.up.railway.app/leaderboard');
-    const leaderboard = await response.json();
-    displayLeaderboard(leaderboard);
+    const response = await fetch('https://nitro-frogger-production.up.railway.app/leaderboard');
+const leaderboard = await response.json();
+displayLeaderboard(leaderboard);
   } catch (error) {
     console.error('Failed to load leaderboard:', error);
   }
