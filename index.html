@@ -2049,15 +2049,16 @@
             const playerName = document.getElementById('playerName').value.trim() || 'Anonymous';
             
             try {
-                const response = await fetchawait fetch('https://distinguished-heart.up.railway.app/leaderboard')
+                const response = await fetch('https://supportive-upliftment.up.railway.app/submit', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    username: playerName,
+    score: score,
+    difficulty: difficulty
+  })
+});
 
-
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        username: playerName,
-                        score: score,
-                        difficulty: difficulty
                     })
                 });
                 
@@ -2073,7 +2074,7 @@
         
         async function loadLeaderboard() {
   try {
-    const response = await fetch('https://distinguished-heart.up.railway.app/leaderboard');
+    const response = await fetch('https://supportive-upliftment.up.railway.app/leaderboard');
     const leaderboard = await response.json();
     displayLeaderboard(leaderboard);
   } catch (error) {
