@@ -234,5 +234,8 @@ process.on('SIGTERM', () => {
 process.on('SIGINT', () => {
     console.log('Saving scores before shutdown...');
     saveScores();
-    process.exit(0);
+process.on('SIGINT', () => {
+  console.log('Saving scores before shutdown...');
+  saveScores();
+  process.exit(0);
 });
